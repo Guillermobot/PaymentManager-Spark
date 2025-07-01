@@ -1,11 +1,26 @@
+//Importaciones para usar EF 
+using Microsoft.EntityFrameworkCore;
+using PaymentManager.Models;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+// Configurar Entity Framework con SQL Server, la cadena de conexion la agregue en appsettings.json, (DefaultConnection)
+builder.Services.AddDbContext<PaymentDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+// Soporte para controllers y vistas
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+
+
+
+// Ajustes de la plantilla para construir la app y configurar solicitudes HTTP (Desactive el HTTPS al crear el proyecto)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
